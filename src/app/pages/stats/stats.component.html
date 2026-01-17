@@ -1,0 +1,66 @@
+<div class="stats-container">
+  <h2 class="page-title">Insights</h2>
+
+  <!-- TOP NUMBERS -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">{{ sugarFreePercent }}%</div>
+      <div class="stat-label">Sugar-Free This Month</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-value">{{ longestStreak }}</div>
+      <div class="stat-label">Longest Streak</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-value">{{ avgPerWeek }}</div>
+      <div class="stat-label">Avg Sugar-Free / Week</div>
+    </div>
+  </div>
+
+  <!-- STREAK PROGRESS -->
+  <div class="streak-block">
+    <h3 class="section-title">Streak Progress</h3>
+
+    @for (target of [7, 14, 30]; track target) {
+      <div class="streak-row">
+        <span class="streak-label">{{ target }} days</span>
+
+        <div class="streak-bar">
+          <div
+            class="streak-fill"
+            [style.width.%]="getStreakProgress(target)">
+          </div>
+        </div>
+
+        <span class="streak-percent">
+          {{ getStreakProgress(target) }}%
+        </span>
+      </div>
+    }
+  </div>
+
+  <!-- MONTHLY HEATMAP -->
+  <div class="heatmap-block">
+    <h3 class="section-title">This Month</h3>
+
+    <div class="heatmap-grid">
+      @for (day of monthDays; track day.date) {
+        <div
+          class="heatmap-cell"
+          [class.success]="day.status === 'success'"
+          [class.fail]="day.status === 'fail'"
+          [class.empty]="day.status === 'empty'"
+          [title]="day.date">
+        </div>
+      }
+    </div>
+
+    <div class="heatmap-legend">
+      <span><i class="dot success"></i> Sugar-free</span>
+      <span><i class="dot fail"></i> Sugar</span>
+      <span><i class="dot empty"></i> No data</span>
+    </div>
+  </div>
+</div>

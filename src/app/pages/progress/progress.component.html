@@ -1,0 +1,52 @@
+<div class="progress-container">
+  <h2 class="page-title">Progress History</h2>
+
+  <div class="stats-overview">
+    <div class="overview-card">
+      <div class="overview-icon">🎯</div>
+      <div class="overview-content">
+        <div class="overview-value">{{ game.getTotalPoints() }}</div>
+        <div class="overview-label">Total Points</div>
+      </div>
+    </div>
+    <div class="overview-card">
+      <div class="overview-icon">🔥</div>
+      <div class="overview-content">
+        <div class="overview-value">{{ game.getCurrentStreak() }}</div>
+        <div class="overview-label">Current Streak</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-section">
+    <h3 class="section-title">Activity Log</h3>
+    
+    @if(logs.length > 0) {
+      <div class="timeline">
+        @for (log of logs; track $index) {
+          <div class="timeline-item" [class.success]="!log.ateSugar" [class.failure]="log.ateSugar">
+            <div class="timeline-marker">
+              <span class="marker-icon">{{ log.ateSugar ? '×' : '✓' }}</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-date">{{ log.date }}</div>
+              <div class="timeline-status">
+                {{ log.ateSugar ? 'Sugar Consumed' : 'Sugar-Free' }}
+              </div>
+              <div class="timeline-points" [class.positive]="log.points > 0" [class.negative]="log.points <= 0">
+                {{ log.points > 0 ? '+' : '' }}{{ log.points }} pts
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    @if(logs.length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">📊</div>
+        <p>No activity logged yet. Start tracking your sugar-free days!</p>
+      </div>
+    }
+  </div>
+</div>

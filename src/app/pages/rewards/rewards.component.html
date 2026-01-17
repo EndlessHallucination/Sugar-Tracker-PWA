@@ -1,0 +1,55 @@
+<div class="rewards-container">
+  <h2 class="page-title">Rewards</h2>
+
+  <div class="points-banner">
+    <div class="points-icon">🏆</div>
+    <div class="points-info">
+      <span class="points-label">Available Points</span>
+      <span class="points-value">{{ game.getTotalPoints() }}</span>
+    </div>
+  </div>
+
+  <div class="rewards-grid">
+    @for(reward of game.getRewards(); track reward.id) {
+      <div class="reward-card" 
+           [class.redeemed]="reward.redeemed" 
+           [class.affordable]="canRedeem(reward.cost, reward.redeemed)">
+        
+        <div class="reward-icon-wrapper">
+          <div class="reward-icon">{{ reward.icon || '🎁' }}</div>
+          @if(reward.redeemed) {
+            <div class="redeemed-badge">✓</div>
+          }
+        </div>
+        
+        <div class="reward-content">
+          <h3 class="reward-title">{{ reward.title }}</h3>
+          @if(reward.description) {
+            <p class="reward-description">{{ reward.description }}</p>
+          }
+          
+          <div class="reward-footer">
+            <div class="reward-cost">
+              <span class="cost-icon">⭐</span>
+              <span class="cost-value">{{ reward.cost }}</span>
+            </div>
+            
+            <button
+              class="reward-button"
+              (click)="redeem(reward.id)"
+              [disabled]="!canRedeem(reward.cost, reward.redeemed)">
+              {{ reward.redeemed ? 'Claimed' : 'Redeem' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if(game.getRewards().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">🎁</div>
+      <p>No rewards available yet. Keep tracking to unlock rewards!</p>
+    </div>
+  }
+</div>

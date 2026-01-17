@@ -1,0 +1,62 @@
+<div class="today-container">
+  <h2 class="page-title">Today's Progress</h2>
+
+  @if(!todayLog) {
+    <div class="action-card">
+      <p class="prompt-text">Did you avoid sugar today?</p>
+      <div class="button-group">
+        <button class="btn btn-success" (click)="mark(false)">
+          <span class="icon">✓</span>
+          No Sugar Today
+        </button>
+        <button class="btn btn-neutral" (click)="mark(true)">
+          <span class="icon">×</span>
+          I Ate Sugar
+        </button>
+      </div>
+    </div>
+  }
+
+  @if(todayLog) {
+    <div class="status-card" [class.success]="!todayLog.ateSugar" [class.failure]="todayLog.ateSugar">
+      <div class="status-icon">
+        {{ todayLog.ateSugar ? '×' : '✓' }}
+      </div>
+      <p class="status-text">
+        {{ todayLog.ateSugar ? 'Sugar Consumed' : 'Sugar-Free Day' }}
+      </p>
+      <div class="button-group-small">
+        <button class="btn-link" (click)="mark(false)">Mark as sugar-free</button>
+        <span class="separator">|</span>
+        <button class="btn-link" (click)="mark(true)">Mark as consumed</button>
+      </div>
+    </div>
+  }
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">{{ game.getCurrentStreak() }}</div>
+      <div class="stat-label">Day Streak</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ game.getTotalPoints() }}</div>
+      <div class="stat-label">Total Points</div>
+    </div>
+  </div>
+
+  <div class="week-view">
+    <h3 class="week-title">This Week</h3>
+    <div class="week-grid">
+      @for(day of getLast7Days(); track day.date) {
+        <div class="day-cell" [class]="day.status">
+          <div class="day-name">{{ day.dayName }}</div>
+          <div class="day-indicator">
+            @if(day.status === 'success') { ✓ }
+            @if(day.status === 'fail') { × }
+            @if(day.status === 'empty') { · }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
