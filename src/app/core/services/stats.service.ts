@@ -1,3 +1,4 @@
+
 import { inject, Injectable } from '@angular/core';
 import { GameStateService } from './game-state.service';
 
@@ -5,9 +6,8 @@ import { GameStateService } from './game-state.service';
   providedIn: 'root'
 })
 export class StatsService {
+  game = inject(GameStateService);
 
-  game = inject(GameStateService)
-  
   getSugarFreePercentageThisMonth(): number {
     const logs = this.game.getLogs();
     const now = new Date();
@@ -52,7 +52,7 @@ export class StatsService {
 
     logs.forEach(l => {
       const d = new Date(l.date);
-      const weekKey = `${d.getFullYear()}-${getWeekNumber(d)}`;
+      const weekKey = `${d.getFullYear()}-${this.getWeekNumber(d)}`;
       if (!weeks.has(weekKey)) weeks.set(weekKey, 0);
       if (!l.ateSugar) weeks.set(weekKey, weeks.get(weekKey)! + 1);
     });
@@ -60,11 +60,10 @@ export class StatsService {
     const total = Array.from(weeks.values()).reduce((a, b) => a + b, 0);
     return Math.round((total / weeks.size) * 10) / 10;
   }
-}
 
-function getWeekNumber(date: Date): number {
-  const firstDay = new Date(date.getFullYear(), 0, 1);
-  const diff = +date - +firstDay;
-  return Math.ceil((diff / 86400000 + firstDay.getDay() + 1) / 7);
-
+  private getWeekNumber(date: Date): number {
+    const firstDay = new Date(date.getFullYear(), 0, 1);
+    const diff = +date - +firstDay;
+    return Math.ceil((diff / 86400000 + firstDay.getDay() + 1) / 7);
+  }
 }

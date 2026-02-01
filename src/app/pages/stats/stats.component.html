@@ -4,17 +4,17 @@
   <!-- TOP NUMBERS -->
   <div class="stats-grid">
     <div class="stat-card">
-      <div class="stat-value">{{ sugarFreePercent }}%</div>
+      <div class="stat-value">{{ sugarFreePercent() }}%</div>
       <div class="stat-label">Sugar-Free This Month</div>
     </div>
 
     <div class="stat-card">
-      <div class="stat-value">{{ longestStreak }}</div>
+      <div class="stat-value">{{ longestStreak() }}</div>
       <div class="stat-label">Longest Streak</div>
     </div>
 
     <div class="stat-card">
-      <div class="stat-value">{{ avgPerWeek }}</div>
+      <div class="stat-value">{{ avgPerWeek() }}</div>
       <div class="stat-label">Avg Sugar-Free / Week</div>
     </div>
   </div>
@@ -46,7 +46,7 @@
     <h3 class="section-title">This Month</h3>
 
     <div class="heatmap-grid">
-      @for (day of monthDays; track day.date) {
+      @for (day of monthDays(); track day.date) {
         <div
           class="heatmap-cell"
           [class.success]="day.status === 'success'"

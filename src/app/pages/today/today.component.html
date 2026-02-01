@@ -47,7 +47,7 @@
   <div class="week-view">
     <h3 class="week-title">This Week</h3>
     <div class="week-grid">
-      @for(day of getLast7Days(); track day.date) {
+      @for(day of last7Days(); track day.date) {
         <div class="day-cell" [class]="day.status">
           <div class="day-name">{{ day.dayName }}</div>
           <div class="day-indicator">

@@ -11,38 +11,40 @@
 
   <div class="rewards-grid">
     @for(reward of game.getRewards(); track reward.id) {
-      <div class="reward-card" 
-           [class.redeemed]="reward.redeemed" 
-           [class.affordable]="canRedeem(reward.cost, reward.redeemed)">
-        
-        <div class="reward-icon-wrapper">
-          <div class="reward-icon">{{ reward.icon || '🎁' }}</div>
-          @if(reward.redeemed) {
-            <div class="redeemed-badge">✓</div>
-          }
-        </div>
-        
-        <div class="reward-content">
-          <h3 class="reward-title">{{ reward.title }}</h3>
-          @if(reward.description) {
-            <p class="reward-description">{{ reward.description }}</p>
-          }
-          
-          <div class="reward-footer">
-            <div class="reward-cost">
-              <span class="cost-icon">⭐</span>
-              <span class="cost-value">{{ reward.cost }}</span>
-            </div>
-            
-            <button
-              class="reward-button"
-              (click)="redeem(reward.id)"
-              [disabled]="!canRedeem(reward.cost, reward.redeemed)">
-              {{ reward.redeemed ? 'Claimed' : 'Redeem' }}
-            </button>
-          </div>
-        </div>
+      <!-- In rewards.component.html, update inside the @for loop: -->
+
+<div class="reward-card"
+     [class.redeemed]="game.isRedeemed(reward.id)"
+     [class.affordable]="canRedeem(reward.cost, reward.id)">
+
+  <div class="reward-icon-wrapper">
+    <div class="reward-icon">{{ reward.icon || '🎁' }}</div>
+    @if(game.isRedeemed(reward.id)) {
+      <div class="redeemed-badge">✓</div>
+    }
+  </div>
+
+  <div class="reward-content">
+    <h3 class="reward-title">{{ reward.title }}</h3>
+    @if(reward.description) {
+      <p class="reward-description">{{ reward.description }}</p>
+    }
+
+    <div class="reward-footer">
+      <div class="reward-cost">
+        <span class="cost-icon">⭐</span>
+        <span class="cost-value">{{ reward.cost }}</span>
       </div>
+
+      <button
+        class="reward-button"
+        (click)="redeem(reward.id)"
+        [disabled]="!canRedeem(reward.cost, reward.id)">
+        {{ game.isRedeemed(reward.id) ? 'Claimed' : 'Redeem' }}
+      </button>
+    </div>
+  </div>
+</div>
     }
   </div>
 
